@@ -1,0 +1,14 @@
+<form #f="ngForm" (ngSubmit)="onSubmitform(f)">
+  <div class="modal-body">
+    <img
+      style="margin-left: 120px; height: 250px; width: 250px"
+      [src]="imgSrc || 'http://placehold.it/180'"
+      alt="your image"
+    />
+  </div>
+  <div class="modal-footer">
+    <input type="file" name="myFile" (change)="onFileChanged($event)" />
+    <button>Upload Image</button>
+  </div>
+</form>
+
