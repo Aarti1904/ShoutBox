@@ -18,6 +18,7 @@ export class ShoutService {
   userShouts(id:any):Observable<Shout>{
     return this.httpClient.get<Shout>(`${this.baseUrl}/userShouts/${id}`)
   };
+<<<<<<< HEAD
 
   likeShout(temp:any):Observable<Shout>{
     return this.httpClient.post<Shout>(`${this.baseUrl}/likeShout`,temp)
@@ -26,4 +27,9 @@ export class ShoutService {
   dislikeShout(temp:any):Observable<Shout>{
     return this.httpClient.post<Shout>(`${this.baseUrl}/dislikeShout`,temp)
   };
+=======
+  likeShout(temp:any):Observable<Shout>{
+    return this.httpClient.post<Shout>(`${this.baseUrl}/likeShout`,temp)
+  };
+>>>>>>> 3f7a13b134f0d913e6422037ab4b2e39e482a354
 }

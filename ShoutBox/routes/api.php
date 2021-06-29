@@ -31,5 +31,8 @@ Route::post('/newpost/{id}', "shoutsController@store") ;
 Route::get('/allshouts', "shoutsController@getAllShouts") ;
 Route::get('/userShouts/{id}',"shoutsController@userAllShouts");
 Route::post('/likeShout',"shoutsController@likes");
+<<<<<<< HEAD
 Route::post('/dislikeShout',"shoutsController@dislikes");
 Route::get('/forgetPass/{id}',"usersController@forgetPassword");
+=======
+>>>>>>> 3f7a13b134f0d913e6422037ab4b2e39e482a354
