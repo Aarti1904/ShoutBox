@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user';
 import { ApprovalsServiceService } from 'src/app/services/approvals-service.service';
+import { UserServiceService } from 'src/app/services/user-service.service';
 
 import Swal from 'sweetalert2';
 
@@ -18,7 +19,8 @@ password:string;
 user:User;
 getUser:User;
 imageUrl:any;
-  constructor(private userService:ApprovalsServiceService, private route:Router, private toaster:ToastrService) {
+
+  constructor(private approvalService:ApprovalsServiceService, private route:Router, private toaster:ToastrService, private userService: UserServiceService) {
     this.userId="";
     this.password="";
     this.user=new User();
@@ -30,7 +32,7 @@ imageUrl:any;
 
   validateUser(){
    
-    this.userService.getUser(this.userId).subscribe(
+    this.approvalService.getUser(this.userId).subscribe(
       data => {
        
       
@@ -84,7 +86,7 @@ imageUrl:any;
   }
  
   getUserById(){
-    this.userService.getUser(this.userId).subscribe(
+    this.approvalService.getUser(this.userId).subscribe(
       data => {
        
       //  debugger;
@@ -92,5 +94,18 @@ imageUrl:any;
         this.getUser=data;
         this.imageUrl=this.getUser.userProfile;
       });
+  }
+
+  forgetPass(){
+    
+    this.userService.forgetPass(this.getUser.id).subscribe(
+      data=>{
+        this.toaster.success("Please check your registered mail for password!");
+      },
+      error=>{
+        console.log(error);
+        this.toaster.error("Mail sending failed!");
+      }
+    )
   }
 }

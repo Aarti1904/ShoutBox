@@ -40,6 +40,7 @@ export class PostComponent implements OnInit {
      this.shouts=new Shout();
      this.allUsers=[];
     }
+    
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe(data => {      
@@ -95,9 +96,7 @@ export class PostComponent implements OnInit {
         }
     }
   
-    debugger;
-
-
+  
     },
     error=>{
       console.log(error);
@@ -108,33 +107,51 @@ export class PostComponent implements OnInit {
 
 like(shout:any)
 {
+  const myElement: HTMLElement | null = document.getElementById(shout.id);
+  if(myElement!=null){
+    var results = this.allShouts.findIndex(x => x.id ===shout.id);
+    shout.likes++;
+    this.allShouts[results].likes=shout.likes;
+  myElement.innerHTML=(shout.likes).toString();
   //.log(id);
-console.log(this.allShouts);
-for(var i=0;i<this.allShouts.length;i++)
-{
-  if(this.allShouts[i].id==shout.id)
-  {
-    console.log(this.allShouts[i].likes);
-    this.likes=this.allShouts[i].likes+1;
-  
-  console.log(this.likes);
-  var temp={
-    'id':id,
-    'likes':this.likes
-  }
-  this.shoutService.likeShout(temp).subscribe(data => {
-    this.likes=data.likes;
-    
-  });
-  }
+console.log(shout.likes);
 }
  
+var temp={
+  'id':shout.id,
+  'likes':shout.likes
+}
 
+this.shoutService.likeShout(temp).subscribe(data => {
+  //this.likes=data.like
+
+});
   
 }
-stop()
+
+  dislikes(shout:any)
 {
-  
+  const myElement: HTMLElement | null = document.getElementById('dis'+shout.id);
+  if(myElement!=null){
+    var results = this.allShouts.findIndex(x => x.id ===shout.id);
+    shout.dislikes++;
+    this.allShouts[results].dislikes=shout.dislikes;
+  myElement.innerHTML=(shout.dislikes).toString();
+  //.log(id);
+console.log(shout.dislikes);
+}
+ 
+var temp={
+  'id':shout.id,
+  'dislikes':shout.dislikes
 }
 
+this.shoutService.dislikeShout(temp).subscribe(data => {
+  //this.likes=data.like
+
+});
+  
 }
+}
+
+

@@ -177,12 +177,18 @@ class shoutsController extends Controller
         where('userId','=',$id)->orderBy('created_at', 'desc')->get();
         return response()->json($shouts,200);
     }
+
     public function likes(Request $request)
     {
-        $likes = DB::table('shouts')->where('id','=',$request->input('id'))->update(['likes' => $request->input('likes')])->get();
-       /* $incLike= $likes;
-        //$incLike+1;
-        $shouts=DB::table('shouts')->where('id', '=', $id)->update(['likes' =>  $incLike])->get();*/
+        $likes = DB::table('shouts')->where('id','=',$request->input('id'))->update(['likes' => $request->input('likes')]);
+      
         return response()->json("like added", 200);
+    }
+
+    public function dislikes(Request $request)
+    {
+        $likes = DB::table('shouts')->where('id','=',$request->input('id'))->update(['dislikes' => $request->input('dislikes')]);
+      
+        return response()->json("dislike added", 200);
     }
 }

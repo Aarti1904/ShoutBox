@@ -124,17 +124,7 @@ class approvalsController extends Controller
         $userDetails->role="";
 
         usersController::store($userDetails);
-      /*  $to = $user->userEmail;
-        $subject = "Mail through PHP";
-        $email_body = "Mail access successfull using PHP!!!!!";
-
-        $headers = "From: shoutbox.com" . "\r\n" ;
-        if (mail($to, $subject, $email_body, $headers)) {
-            echo "Success!";
-        } else {
-            echo "Some err!!!!!";
-        }
-*/
+      
 
         $user->destroy($id);
        

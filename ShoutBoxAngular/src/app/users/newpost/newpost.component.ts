@@ -98,7 +98,7 @@ onSubmitform(f: NgForm) {
       icon: 'error',
       timer:2500
     }).then(function() {
-      window.location.reload();
+     // window.location.reload();
   });
   });  
 }

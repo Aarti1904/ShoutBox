@@ -18,7 +18,12 @@ export class ShoutService {
   userShouts(id:any):Observable<Shout>{
     return this.httpClient.get<Shout>(`${this.baseUrl}/userShouts/${id}`)
   };
+
   likeShout(temp:any):Observable<Shout>{
     return this.httpClient.post<Shout>(`${this.baseUrl}/likeShout`,temp)
+  };
+
+  dislikeShout(temp:any):Observable<Shout>{
+    return this.httpClient.post<Shout>(`${this.baseUrl}/dislikeShout`,temp)
   };
 }

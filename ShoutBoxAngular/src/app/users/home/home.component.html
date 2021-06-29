@@ -114,8 +114,9 @@
           <input type="password" id="password" class="form-control form-control-sm validate ml-0" [(ngModel)]="password">
           <label data-error="wrong" data-success="right" for="password" class="ml-0">Enter Password</label>
         </div>
-
+        <a (click)="forgetPass()" style="color:blue">Forget Password?</a>
         <div class="text-center mt-4">
+          
           <button  class="btn btn-cyan mt-1" data-bs-dismiss="modal" (click)="validateUser()">Login </button>
         </div>
       </div>

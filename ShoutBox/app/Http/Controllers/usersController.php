@@ -51,6 +51,17 @@ class usersController extends Controller
         $newUser->friends = "";
 
         $newUser->save();
+        /*  $to = $user->userEmail;
+        $subject = "ShoutBox Access!";
+        $email_body = "Following are the login details:: \n\n  User ID:: " . $newUser->userEmail ."\n Password:: " . $newUser->userPass;
+
+        $headers = "From: shoutbox.com" . "\r\n" ;
+        if (mail($to, $subject, $email_body, $headers)) {
+            echo "Success!";
+        } else {
+            echo "Some err!!!!!";
+        }
+*/
     }
 
     /**
@@ -167,5 +178,20 @@ class usersController extends Controller
         }
     }
 
+    public function  forgetPassword($id){
+        $user = ModelsUser::find($id);
+        $to = $user->userEmail;
+        $subject = "ShoutBox Forget Password!";
+        $email_body = "Following are the login details:: \n\n  User ID:: " . $user->userEmail ."\n Password:: " . $user->userPass;
+
+        $headers = "From: shoutbox.com" . "\r\n" ;
+        if (mail($to, $subject, $email_body, $headers)) {
+            return response()->json("Mail sent.",200);
+        } else {
+            return response()->json("Mail sending failed!",400);
+        }
+
+
+    }
    
 }

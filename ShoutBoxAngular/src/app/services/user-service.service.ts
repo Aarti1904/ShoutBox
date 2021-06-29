@@ -50,4 +50,9 @@ getUserById(id: string):Observable<User>{
       });
      
    }
+
+   forgetPass(id: string):Observable<User>{
+     
+    return this.httpClient.get<User>(`${this.baseUrl}/forgetPass/${id}`)
+  };
 }
