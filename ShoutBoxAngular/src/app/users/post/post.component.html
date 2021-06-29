@@ -1,0 +1,890 @@
+<div class="container">
+  <div class="profile-page tx-13">
+    <div class="row profile-body">
+      <!-- <div class="row d-flex align-items-right justify-content-right"> -->
+      <div class="col-md-8">
+        <div class="card" *ngFor="let shouts of allShouts">
+          <div class="d-flex justify-content-between p-2 px-3">
+            <div class="d-flex flex-row align-items-center">
+              <img
+                *ngIf="shouts.userProfile; else elseBlock"
+                [src]="shouts.userProfile"
+                width="50"
+                height="50"
+                class="rounded-circle"
+              />
+              <ng-template #elseBlock>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"
+                  alt="Admin"
+                  class="rounded-circle"
+                  width="50"
+                />
+              </ng-template>
+              <div class="d-flex flex-column ml-2">
+                <span class="font-weight-bold">{{
+                  shouts.userId | titlecase
+                }}</span>
+                <small class="text-primary"></small>
+              </div>
+            </div>
+            <div class="d-flex flex-row mt-1 ellipsis">
+              <small class="mr-2">{{ shouts.created_at }}</small>
+              <i class="fa fa-ellipsis-h"></i>
+            </div>
+          </div>
+          <img
+            [src]="shouts.file"
+            *ngIf="shouts.type == 'image'; else videoBlock"
+            class="img-fluid imgH"
+          />
+          <ng-template #videoBlock>
+            <video
+              id="myVideo"
+              class="video-fluid z-depth-1"
+              autoplay
+              loop
+              controls
+              muted
+            >
+              <source [src]="shouts.file" type="video/mp4" />
+            </video>
+          </ng-template>
+          <div class="p-2">
+            <p class="text-justify">{{ shouts.caption }}</p>
+            <hr />
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex flex-row icons d-flex align-items-center">
+                &nbsp; &nbsp;<a (click)="like(shouts)"
+                  ><i class="fa fa-heart" id="{{ shouts.id }}">{{
+                    shouts.likes
+                  }}</i></a
+                ><a (click)="dislikes(shouts)"
+                  ><i class="fa fa-thumbs-down ml-4" id="dis{{ shouts.id }}">{{
+                    shouts.dislikes
+                  }}</i></a
+                >
+              </div>
+              <div class="d-flex flex-row muted-color">
+                <span>2 comments</span>
+              </div>
+            </div>
+            <hr />
+            <div class="comments">
+              <div class="d-flex flex-row mb-2">
+                <img
+                  src="https://i.imgur.com/9AZ2QX1.jpg"
+                  width="40"
+                  class="rounded-image"
+                />
+                <div class="d-flex flex-column ml-2">
+                  <span class="name">Daniel Frozer</span>
+                  <small class="comment-text"
+                    >I like this alot! thanks alot</small
+                  >
+                  <div class="d-flex flex-row align-items-center status">
+                    <small>Like</small><small>18 mins</small>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-row mb-2">
+                <img
+                  src="https://i.imgur.com/1YrCKa1.jpg"
+                  width="40"
+                  class="rounded-image"
+                />
+                <div class="d-flex flex-column ml-2">
+                  <span class="name">Elizabeth goodmen</span>
+                  <small class="comment-text">Thanks for sharing!</small>
+                  <div class="d-flex flex-row align-items-center status">
+                    <small>Like</small><small>8 mins</small>
+                  </div>
+                </div>
+              </div>
+              <form #myForm="ngForm" (ngSubmit)="addComment(myForm,shouts.id)">
+                <div class="comment-input">
+                  <input
+                    type="text"
+                   id=comment{{shouts.id}}
+                    class="form-control"
+                    minlength="4" required
+                  />
+                  <!-- <div class="fonts"> <i class="fa fa-camera"></i> </div> -->
+                  
+                    <div class="fonts"><button  type="submit" style="background:transparent; border:transparent">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-send"
+                      >
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                      </svg></button></div
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  </div> -->
+      <!-- right wrapper start -->
+      <div class="col-md-4">
+        <div class="row">
+          <div
+            class="col-md-12 grid-margin"
+            style="
+              position: fixed;
+              width: 500px;
+              height: 65vh;
+              overflow-y: scroll;
+            "
+          >
+            <!--  <div class="card rounded">
+                          <div class="card-body">
+                              <div class="d-flex align-items-center justify-content-between mb-2">
+                                  <h6 class="card-title mb-0">Find friends</h6>
+                              </div>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                  stroke-linejoin="round" class="feather feather-search">
+                                  <circle cx="11" cy="11" r="8"></circle>
+                                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                              </svg>
+
+                              <input type="text" id="search" placeholder="Search to type">
+
+                              <ul>
+
+                                  <li style="list-style-type:none;">
+
+                                      <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                          <div class="d-flex align-items-center hover-pointer">
+                                              <div>
+                                                  <img class="img-xs rounded-circle"
+                                                      style="height:70px; width:70px !important" src="" alt="" />
+                                              </div>
+                                              <ng-template #elseBlock>
+                                                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"
+                                                      style="height:70px; width:70px !important" alt="Admin"
+                                                      class="img-xs rounded-circle" width="200">
+                                              </ng-template>
+
+                                              <div class="ml-2">
+                                                  <p>User</p>
+                                              </div>
+                                          </div>
+
+                                          <button class="btn btn-icon">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                  class="feather feather-user-plus" data-toggle="tooltip" title=""
+                                                  data-original-title="Connect">
+                                                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                  <circle cx="8.5" cy="7" r="4"></circle>
+                                                  <line x1="20" y1="8" x2="20" y2="14"></line>
+                                                  <line x1="23" y1="11" x2="17" y2="11"></line>
+                                              </svg>
+                                          </button>
+                                      </div>
+                                  </li>
+
+
+                              </ul>
+                          </div>
+                      </div> -->
+            <div class="card rounded">
+              <div class="card-body">
+                <h6 class="card-title">Friends</h6>
+                <ul>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                  <li style="list-style-type: none">
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        mb-2
+                        pb-2
+                        border-bottom
+                      "
+                    >
+                      <div class="d-flex align-items-center hover-pointer">
+                        <img
+                          class="img-xs rounded-circle"
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt=""
+                        />
+                        <div class="ml-2">
+                          <p>Friend name</p>
+                          <p class="tx-11 text-muted">12 Mutual Friends</p>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feather feather-user-plus"
+                          data-toggle="tooltip"
+                          title=""
+                          data-original-title="Connect"
+                        >
+                          <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                          ></path>
+                          <circle cx="8.5" cy="7" r="4"></circle>
+                          <line x1="20" y1="8" x2="20" y2="14"></line>
+                          <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- right wrapper end -->
+    </div>
+  </div>
+</div>
+<script></script>
