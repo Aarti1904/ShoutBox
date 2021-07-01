@@ -1,0 +1,177 @@
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top" style="position: relative;">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo mr-auto">
+      <a href="index.html"><img src="../../../assets/images/download.png" /></a>
+    </h1>
+    <!-- <a href="index.html" class="logo mr-auto"><img src="../../../assets/img/logo.png" alt="" class="img-fluid"></a>
+       -->
+
+    <nav class="nav-menu d-none d-lg-block">
+      <ul>
+        <li class="active">
+          <a routerLink="/home" *ngIf="this.isButton">Home</a>
+        </li>
+
+        <div class="yourCssClass" *ngIf="this.isButton">
+          <a
+            routerLink=""
+            data-bs-toggle="modal"
+            data-bs-target="#darkModalForm"
+            class="get-started-btn"
+            >Register</a
+          >
+        </div>
+        <li class="active">
+          <a routerLink="/timeline" *ngIf="this.isButtonVisible">Timeline</a>
+        </li>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <div>
+          <li *ngIf="this.isButtonVisible" class="drop-down">
+            <a routerLink=""
+              ><img
+                src="../../../assets/img/user.png"
+                width="40px"
+                height="40px"
+            /></a>
+            <ul style="margin-left: 85%">
+              <li><a href="/profile">Profile Settings</a></li>
+              <li><a href="/home" (click)="logout()">Logout</a></li>
+            </ul>
+            <!-- <ul> -->
+          </li>
+        </div>
+        <!-- </li> -->
+        <!-- </ul> -->
+      </ul>
+    </nav>
+    <!-- .nav-menu -->
+  </div>
+</header>
+<!-- End Header -->
+<br />
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="darkModalForm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+  style="width: 440px;overflow:hidden; margin-left: 450px"
+>
+  <div class="modal-dialog form-dark" role="document">
+    <!--Content-->
+    <div
+      class="modal-content card card-image"
+      style="
+        background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table%20(7).jpg');
+      "
+    >
+      <div class="text-white rgba-stylish-strong py-5 px-5 z-depth-2">
+        <!--Header-->
+        <div class="modal-header text-center pb-4">
+          <h3
+            class="modal-title w-100 white-text font-weight-bold"
+            id="myModalLabel"
+          >
+            <strong>SIGN</strong>
+            <a class="green-text font-weight-bold"><strong> UP</strong></a>
+          </h3>
+          <button
+            type="button"
+            class="close white-text"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--Body-->
+        <div class="modal-body" >
+          <!--Body-->
+          <form #myForm="ngForm" (ngSubmit)="addUser(myForm)">
+            <div class="md-form mb-3">
+              <input
+                type="text"
+                id="userName"
+                name="userName"
+                class="form-control validate white-text"
+                [(ngModel)]="newUser.userName"
+              />
+              <label data-error="wrong" data-success="right" for="userName"
+                >Your Name</label
+              >
+            </div>
+
+            <div class="md-form mb-3">
+              <input
+                type="email"
+                id="userEmail"
+                name="userEmail"
+                class="form-control validate white-text"
+                [(ngModel)]="newUser.userEmail"
+              />
+              <label data-error="wrong" data-success="right" for="userEmail"
+                >Your Email</label
+              >
+            </div>
+
+            <div class="md-form mb-3">
+              <input
+                type="tel"
+                id="mobile"
+                name="mobile"
+                pattern="[789][0-9]{9}"
+                maxlength="10"
+                required="required"
+                class="form-control validate white-text"
+                [(ngModel)]="newUser.mobileNo"
+              />
+              <label data-error="wrong" data-success="right" for="mobile"
+                >Your Mobile Number</label
+              >
+            </div>
+
+            <div class="md-form pb-0">
+              <input
+                type="text"
+                placeholder=""
+                id="dob"
+                name="dob"
+                [(ngModel)]="newUser.dob"
+                class="form-control validate white-text"
+                onfocus="(this.type='date')"
+              />
+              <label data-error="wrong" data-success="right" for="dob"
+                >Date of Birth</label
+              >
+            </div>
+
+            <!--Grid row-->
+            <div class="row d-flex align-items-center mb-4">
+              <!--Grid column-->
+              <div class="text-center mb-2 col-md-12">
+                <button
+                  type="submit"
+                  class="btn btn-success btn-block btn-rounded z-depth-1"
+                 
+                  [disabled]="!myForm.form.valid"
+                >
+                  Sign up
+                </button>
+              </div>
+              <!--Grid column-->
+            </div>
+          </form>
+          <!--Grid row-->
+        </div>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!-- Modal -->
+
+
