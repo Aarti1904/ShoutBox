@@ -1,0 +1,160 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12" *ngIf="friends.length" >
+            <div class="card" >
+                <div class="header">
+                    <h4><strong>New</strong> Friend Requests <small>Add new friend </small></h4>
+                </div>
+                <div class="body" >
+                    <ul  class="new_friend_list list-unstyled row">
+                        <li *ngFor="let frd of friends" class="col-lg-2 col-md-2 col-sm-6 col-4" style="text-align: center !important" >
+                            <a data-toggle="modal" data-target="#personmodal" (click)="getDeatils(frd.id)">
+                                <img *ngIf="frd.userProfile; else elseBlock"    class="img-xs rounded-circle"
+                                style="height:150px; width:150px"
+                                [src]="frd.userProfile"
+                                alt=""
+                              />
+                               <ng-template #elseBlock>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png" style="height:150px; width:150px" alt="image">
+                              </ng-template>
+                                <h6 class="users_name">{{frd.userName}}</h6>
+                                <small class="join_date">{{frd.userEmail}}</small>
+                            </a>
+                            <br>
+                              <button class="btn" style="border:green solid 2px"(click)="acceptFriend(frd.id)">
+                                <span style="font-family: wingdings; font-size: 150%; color: green;">&#x2714;</span>
+                              </button>
+                              <button class="btn" style="border:red solid 2px" (click)="deleteFriendRequest(frd.id)">
+                                <span style="font-family: wingdings; font-size: 150%;color: red;">&#x2718;</span>
+                              </button>
+                        </li>
+                      <!--   <li class="col-lg-2 col-md-2 col-sm-6 col-4">
+                            <a href="">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="img-thumbnail" alt="User Image">
+                                <h6 class="users_name">Aubrey</h6>
+                                <small class="join_date">Yesterday</small>
+                            </a>
+                        </li>
+                        <li class="col-lg-2 col-md-2 col-sm-6 col-4">
+                            <a href="">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="img-thumbnail" alt="User Image">
+                                <h6 class="users_name">Oliver</h6>
+                                <small class="join_date">08 Nov</small>
+                            </a>
+                        </li>
+                        <li class="col-lg-2 col-md-2 col-sm-6 col-4">
+                            <a href="">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="img-thumbnail" alt="User Image">
+                                <h6 class="users_name">Isabella</h6>
+                                <small class="join_date">12 Dec</small>
+                            </a>
+                        </li>
+                        <li class="col-lg-2 col-md-2 col-sm-6 col-4">
+                            <a href="">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="img-thumbnail" alt="User Image">
+                                <h6 class="users_name">Jacob</h6>
+                                <small class="join_date">12 Dec</small>
+                            </a>
+                        </li>
+                        <li class="col-lg-2 col-md-2 col-sm-6 col-4">
+                            <a href="">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-thumbnail" alt="User Image">
+                                <h6 class="users_name">Matthew</h6>
+                                <small class="join_date">17 Dec</small>
+                            </a>
+                        </li>  -->
+                                                   
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12"  *ngIf="frdList.length">
+            <div class="card">
+                <div class="header">
+                    <h4><strong>Friends </strong> <small>List</small></h4>
+                </div>
+                <div class="body">
+                    <ul class="new_friend_list list-unstyled row">
+                        <li *ngFor="let frd of frdList" class="col-lg-2 col-md-2 col-sm-6 col-4" style="text-align: center !important"> 
+                            <a href="/friendProfile/{{frd.id}}">
+                                <img *ngIf="frd.userProfile; else elseBlock" class="img-xs rounded-circle"
+                                style="height:150px; width:150px"
+                                [src]="frd.userProfile"
+                                alt=""
+                              />
+                               <ng-template #elseBlock>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"  style="height:150px; width:150px" alt="Admin" class="img-xs rounded-circle">
+                              </ng-template>
+                                <h6 class="users_name">{{frd.userName}}</h6>
+                                <small class="join_date">{{frd.userEmail}}</small>
+                             
+                            </a>
+                            <button (click)="unfriend(frd.id)"  class="btn" style="border:red solid 2px; color:red"><b>Unfriend</b></button>
+                        </li>                           
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---------------------------------------------------->
+<div class="modal fade" id="personmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <div class="content">
+      <div class="card">
+          <div class="firstinfo">
+            <div *ngIf="userdata.userProfile; else elseimage">
+              <img
+              class="img-xs rounded-circle"
+              style="height:70px; width:70px !important"
+              [src]="userdata.userProfile"
+              alt=""
+            />
+             </div>
+             <ng-template #elseimage>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png" style="height:70px; width:70px !important" alt="Admin" class="img-xs rounded-circle" width="200">
+            </ng-template>
+              <div class="profileinfo">
+                  <h1>{{userdata.userName|titlecase}}</h1>
+                  <h3>{{userdata.userEmail}}</h3>
+                  <p class="bio">Lived all my life on the top of mount Fuji, learning the way to be a Ninja Dev.</p>
+                  <h5>{{userdata.dob}}</h5>
+              </div>
+          </div>
+      </div>
+      <br>
+      <div class="badgescard"> 
+          <br>
+          <br>
+     <!-- <button class="btn btn-icon" data-bs-toggle (click)="acceptFriend(userdata.id)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="150"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-user-plus"
+            data-toggle="tooltip"
+            title=""
+            data-original-title="Connect"
+          >
+            <path
+              d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+            ></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+        </button>-->
+      </div> 
+  </div>
+    </div>
+  </div>
+  </div>
