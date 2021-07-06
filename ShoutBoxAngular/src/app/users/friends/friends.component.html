@@ -1,0 +1,134 @@
+<div class="container">
+    <div class="row">
+    <div class="col-md-7" style="margin-left: 58%;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>&nbsp;
+  <input type="text" #searchbar [(ngModel)]="searchInput" style="width:50%;height:100%;"id="search" class="rounded"placeholder="Search to type">
+</div>
+</div>
+  <div class="row">
+    <div class="col-md-12 ">
+             <div class="col-md-12 "   >
+            <div class="card">
+                <div class="body">
+                   
+                     <ul class="new_friend_list list-unstyled row" *ngIf="searchInput.length!=0;else nextFrdList" >
+                        <div class="header">
+                            <h4><strong>Friends </strong> <small>List</small></h4>
+                        </div>
+                        <li *ngFor="let frd of frdList |  filter:searchInput let i  = index" class="col-lg-2 col-md-2 col-sm-6 col-4" style="text-align: center;list-style-type:none !important">
+                            <a href="/friendProfile/{{frd.id}}">
+                                <img *ngIf="frd.userProfile; else elseBlock" class="img-xs rounded-circle"
+                                style="height:150px; width:150px"
+                                [src]="frd.userProfile"
+                                alt=""
+                              />
+                               <ng-template #elseBlock>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"  style="height:150px; width:150px" alt="Admin" class="img-xs rounded-circle">
+                              </ng-template>
+                                <h6 class="users_name">{{frd.userName}}</h6>
+                                <small class="join_date">{{frd.userEmail}}</small>
+                             
+                            </a>
+                            <button (click)="unfriend(frd.id)"  class="btn" style="border:red solid 2px; color:red"><b>Unfriend</b></button>
+                        </li> 
+                    </ul>
+                    <ng-template #nextFrdList >
+                       
+                        <div class="header" *ngIf="friends.length">
+                            <h4><strong>New</strong> Friend Requests <small>Add new friend </small></h4>
+                        </div>
+                        <div class="body" >
+                        <ul  class="new_friend_list list-unstyled row">
+                                <li *ngFor="let frd of friends" class="col-lg-2 col-md-2 col-sm-6 col-4" style="text-align: center !important" >
+                                    <a data-toggle="modal" data-target="#personmodal" (click)="getDeatils(frd.id)">
+                                        <img *ngIf="frd.userProfile; else elseBlock"    class="img-xs rounded-circle"
+                                        style="height:150px; width:150px"
+                                        [src]="frd.userProfile"
+                                        alt=""
+                                      />
+                                       <ng-template #elseBlock>
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png" style="height:150px; width:150px" alt="image">
+                                      </ng-template>
+                                        <h6 class="users_name">{{frd.userName}}</h6>
+                                        <small class="join_date">{{frd.userEmail}}</small>
+                                    </a>
+                                    <br>
+                                      <button class="btn" style="border:green solid 2px"(click)="acceptFriend(frd.id)">
+                                        <span style="font-family: wingdings; font-size: 150%; color: green;">&#x2714;</span>
+                                      </button>
+                                      <button class="btn" style="border:red solid 2px" (click)="deleteFriendRequest(frd.id)">
+                                        <span style="font-family: wingdings; font-size: 150%;color: red;">&#x2718;</span>
+                                      </button>
+                                </li>
+                            
+                            </ul>
+                        </div>
+                        <div class="header" *ngIf="frdList.length">
+                            <h4><strong>Friends </strong> <small>List</small></h4>
+                        </div>
+                      <ul class="new_friend_list list-unstyled row">
+                        <li  *ngFor="let frd of frdList" class="col-lg-2 col-md-2 col-sm-6 col-4" style="text-align: center;list-style-type:none !important"> 
+                        <a href="/friendProfile/{{frd.id}}">
+                            <img *ngIf="frd.userProfile; else elseBlock" class="img-xs rounded-circle"
+                            style="height:150px; width:150px"
+                            [src]="frd.userProfile"
+                            alt=""
+                          />
+                           <ng-template #elseBlock>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"  style="height:150px; width:150px" alt="Admin" class="img-xs rounded-circle">
+                          </ng-template>
+                            <h6 class="users_name">{{frd.userName}}</h6>
+                            <small class="join_date">{{frd.userEmail}}</small>
+                         
+                        </a>
+                        <button (click)="unfriend(frd.id)"  class="btn" style="border:red solid 2px; color:red"><b>Unfriend</b></button>
+                       </li>
+                    </ul> 
+                    </ng-template>   
+                </div>
+            </div>
+        </div>
+   <!--</div>-->
+</div>
+
+<!---------------------------------------------------->
+<div class="modal fade" id="personmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <div class="content">
+      <div class="card">
+          <div class="firstinfo">
+            <div *ngIf="userdata.userProfile; else elseimage">
+              <img
+              class="img-xs rounded-circle"
+              style="height:70px; width:70px !important"
+              [src]="userdata.userProfile"
+              alt=""
+            />
+             </div>
+             <ng-template #elseimage>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png" style="height:70px; width:70px !important" alt="Admin" class="img-xs rounded-circle" width="200">
+            </ng-template>
+              <div class="profileinfo">
+                  <h1>{{userdata.userName|titlecase}}</h1>
+                  <h3>{{userdata.userEmail}}</h3>
+                  <p class="bio">Lived all my life on the top of mount Fuji, learning the way to be a Ninja Dev.</p>
+                  <h5>{{userdata.dob}}</h5>
+              </div>
+          </div>
+      </div>
+      <br>
+      <div class="badgescard"> 
+          <br>
+          <br>
+    
+      </div> 
+  </div>
+    </div>
+  </div>
+  </div>
